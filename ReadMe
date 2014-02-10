@@ -1,4 +1,8 @@
-This directory contains a skeleton for CS61B Project 2.
+This directory contains a skeleton for CS61B Project 2. The project specifications can be found here:
+
+https://inst.eecs.berkeley.edu/~cs61b/fa12/labs/proj2.pdf
+
+*Note: This project was competleted on UC Berkeley's instructional machine and may need auxilary resources to compile and run. 
 
 Although some of what's in here might seem mysterious to you, try to
 understand what it's all for.  Don't be afraid to ask us about it.
