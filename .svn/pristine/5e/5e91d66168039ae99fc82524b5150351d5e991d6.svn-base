@@ -1,0 +1,85 @@
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file.
+
+package tracker;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Scanner;
+import java.util.regex.MatchResult;
+
+/** Main class of the tracker program.iii
+ * @author
+ */
+public class Main {
+
+    // NOTE: Print out a single line at the beginning to identify the program
+    // Use "> " as the prompt.
+
+    /** The main tracker program.  ARGS are as described in the
+     *  project 2 handout:
+     *      [--debug=N] [ INPUTFILE [ OUTPUTFILE ] ]
+     */
+    public static void main(String... args) {
+        String inputFileName, outputFileName;
+        inputFileName = outputFileName = null;
+        String input = "";
+        int debug = 0;
+        for (String x: args) {
+            input += x;
+        }
+        Scanner commandScanner = new Scanner(input);
+        commandScanner.findInLine("(\\[--debug=(\\d+)\\])?(\\[(\\S+)"
+                + "(\\[(\\S+)\\])?\\])?");
+        MatchResult parts = commandScanner.match();
+        if (parts.group(1) != null) {
+            debug = Integer.parseInt(parts.group(2));
+        }
+        if (parts.group(4) != null) {
+            inputFileName = parts.group(4);
+        }
+        if (parts.group(6) != null) {
+            outputFileName = parts.group(6);
+        }
+        // REPLACE WITH ARGUMENT PROCESSING.  SET DEBUGGING PARAMETERS
+        // AND (POSSIBLY) inputFileName AND outputFileName.
+        if (inputFileName != null) {
+            try {
+                System.setIn(new FileInputStream(inputFileName));
+            } catch (FileNotFoundException e) {
+                System.err.printf("Error: could not open %s%n", inputFileName);
+                System.exit(1);
+            }
+        }
+        if (outputFileName != null) {
+            try {
+                System.setOut(new PrintStream(outputFileName));
+            } catch (FileNotFoundException e) {
+                System.err.printf("Error: could not open %s%n",
+                                   outputFileName);
+                System.exit(1);
+            }
+        }
+        
+        
+        // ADD PROCESSING CODE HERE.
+        Scanner inputScanner = new Scanner(System.in);
+        System.out.close();
+    }
+    /** Parses input and instantiate posts. */
+    private void parseInput() {
+        Scanner inputScanner = new Scanner(System.in);
+        inputScanner.skip("(?:\\#(?:\\s+\\w*)*^)?");
+    }
+
+    /** Print brief description of the command-line format. */
+    static void usage() {
+        // FIXME: REPLACE WITH SOMETHING TO PRINT BRIEF MESSAGE ABOUT HOW TO
+        // USE THIS PROGRAM.
+        System.exit(1);
+    }
+
+    // FIXME: OTHER METHODS AND FIELDS HERE, IF NEEDED
+}

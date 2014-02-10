@@ -1,0 +1,61 @@
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file.
+
+package tracker;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
+/** Main class of the tracker program.
+ * @author
+ */
+public class Main {
+
+    // NOTE: Print out a single line at the beginning to identify the program
+    // Use "> " as the prompt.
+
+    /** The main tracker program.  ARGS are as described in the
+     *  project 2 handout:
+     *      [--debug=N] [ INPUTFILE [ OUTPUTFILE ] ]
+     */
+    public static void main(String... args) {
+        String inputFileName, outputFileName;
+        inputFileName = outputFileName = null;
+        // REPLACE WITH ARGUMENT PROCESSING.  SET DEBUGGING PARAMETERS
+        // AND (POSSIBLY) inputFileName AND outputFileName.
+
+        if (inputFileName != null) {
+            try {
+                System.setIn(new FileInputStream(inputFileName));
+            } catch (FileNotFoundException e) {
+                System.err.printf("Error: could not open %s%n", inputFileName);
+                System.exit(1);
+            }
+        }
+
+        if (outputFileName != null) {
+            try {
+                System.setOut(new PrintStream(outputFileName));
+            } catch (FileNotFoundException e) {
+                System.err.printf("Error: could not open %s%n",
+                                   outputFileName);
+                System.exit(1);
+            }
+        }
+
+        // ADD PROCESSING CODE HERE.
+
+        System.out.close();
+    }
+
+
+    /** Print brief description of the command-line format. */
+    static void usage() {
+        // FIXME: REPLACE WITH SOMETHING TO PRINT BRIEF MESSAGE ABOUT HOW TO
+        // USE THIS PROGRAM.
+        System.exit(1);
+    }
+
+    // FIXME: OTHER METHODS AND FIELDS HERE, IF NEEDED
+}

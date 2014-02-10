@@ -1,0 +1,258 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/** A Set2D implemented with a QuadTree.  The type argument, Point,
+ *  indicates the type of points contained in the set.  The rather
+ *  involved type parameter structure here allows you to extend
+ *  QuadPoint, and thus add additional data and methods to the points
+ *  you store.
+ *  @author
+ */
+public class QuadTree<Point> extends Set2D<Point> {
+    // Add only private and package private members to this class,
+    // or it may not work with our application.
+
+
+    /** ArrayList which hold Quadtree children */
+    ArrayList<QuadTree<Point>> children = new ArrayList<QuadTree<Point>>();
+
+    /** An empty set of Points that uses VIEW to extract position information.
+     *  The argument TRANSITIONSIZE has no externally
+     *  visible effect, but may affect performance.  It is intended to specify
+     *  the largest set Points that resides unsubdivided in a single node of
+     *  the tree.  While space-efficient, such nodes have slower search times
+     *  as their size increases.
+     *  */
+    public QuadTree(PointView<Point> view, int transitionSize) {
+        super(view);
+        _transitionSize = transitionSize;
+        _root = new InternalNode<Point>(getView(), _transitionSize);
+    }
+
+    /* PUBLIC METHODS.  See Set2D.java for documentation */
+
+    /** Returns my transitionSize parameter (supplied to my constructor). */
+    public int getTransitionSize() {
+        return _transitionSize;
+    }
+
+    @Override
+    public int size() {
+        return 0;  // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public void add(Point p) {
+        _root.add(p);
+    }
+
+    @Override
+    public void remove(Point p) {
+        // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public boolean contains(Point p) {
+        return false; // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return null; // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public Iterator<Point> iterator(double xl, double yl,
+            double xu, double yu) {
+        return null; // FIXME: REPLACE WITH BODY
+    }
+
+
+    /* END OF PUBLIC MEMBERS */
+
+    // Do not add any public or protected members (except to override methods
+    // of java.lang.Object), and do not change the signatures (names,
+    // arguments, and return types) of any public member.
+    // ADD ANY FIELDS AND NON-PUBLIC MEMBERS YOU NEED HERE.
+
+    /** Class for tree nodes */
+    private abstract class TreeNode<A> {
+        /** PointView for TreeNode */
+        protected final PointView<A> _view;
+        /** Transition Size. */
+        protected final int _transitionSize;
+        private TreeNode(PointView<A> view, int transitionSize) {
+            _view = view;
+            _transitionSize = transitionSize;
+        }
+
+        public abstract void add(A point);
+
+        public abstract boolean isLeaf();
+    }
+
+    private class InternalNode<A> extends TreeNode<A> {
+        /** Upper Left node. */
+        private TreeNode<A> Urnode;
+        /** Upper Right node. */
+        private TreeNode<A> Ulnode;
+        /** Lower Left node. */
+        private TreeNode<A> Llnode;
+        /** Lower Right node. */
+        private TreeNode<A> Lrnode;
+        /** Root */
+        private A root;
+        private InternalNode(PointView<A> view, int transitionSize) {
+            super(view, transitionSize);
+            Urnode = new LeafNode<A>(view, transitionSize);
+            Ulnode = new LeafNode<A>(view, transitionSize);
+            Llnode = new LeafNode<A>(view, transitionSize);
+            Lrnode = new LeafNode<A>(view, transitionSize);
+        }
+
+        /** Returns true if LeafNode */ 
+        public boolean isLeaf() {
+            return false;
+        }
+        /** Adds POINT to node */
+        public void add(A point) {
+            if (root == null) {
+                root = point;
+            } else {
+                double xpoint = _view.getX(point);
+                double ypoint = _view.getY(point);
+                double xRoot = _view.getX(root);
+                double yRoot = _view.getY(root);
+                int quadrant = quadrant(xpoint, ypoint, xRoot, yRoot);
+                switch(quadrant) {
+                case 1:
+                    if (Ulnode.isLeaf()) {
+                        if (((LeafNode<A>) Ulnode).isFull()) {
+                            InternalNode<A> temp = 
+                                    new InternalNode<A>(_view, _transitionSize);
+                            for (int i = 0;
+                                    i < ((LeafNode<A>) Ulnode).numItems();
+                                    i += 1) {
+                                temp.add(((LeafNode<A>) Ulnode).child(i));
+                            }
+                            Ulnode = temp;
+
+                        } else {
+                            ((LeafNode<A>) Ulnode).add(point);
+                        }
+                    } else {
+                        ((InternalNode<A>) Ulnode).add(point);
+                    }
+                    break;
+                case 2: 
+                    if (Urnode.isLeaf()) {
+                        if (((LeafNode<A>) Urnode).isFull()) {
+                            InternalNode<A> temp = 
+                                    new InternalNode<A>(_view, _transitionSize);
+                            for (int i = 0;
+                                    i < ((LeafNode<A>) Urnode).numItems();
+                                    i += 1) {
+                                temp.add(((LeafNode<A>) Urnode).child(i));
+                            }
+                            Urnode = temp;
+
+                        } else {
+                            ((LeafNode<A>) Urnode).add(point);
+                        }
+                    } else {
+                        ((InternalNode<A>) Urnode).add(point);
+                    }
+                    break;
+                case 3:
+                    if (Llnode.isLeaf()) {
+                        if (((LeafNode<A>) Llnode).isFull()) {
+                            InternalNode<A> temp = 
+                                    new InternalNode<A>(_view, _transitionSize);
+                            for (int i = 0;
+                                    i < ((LeafNode<A>) Llnode).numItems();
+                                    i += 1) {
+                                temp.add(((LeafNode<A>) Llnode).child(i));
+                            }
+                            Llnode = temp;
+
+                        } else {
+                            ((LeafNode<A>) Llnode).add(point);
+                        }
+                    } else {
+                        ((InternalNode<A>) Llnode).add(point);
+                    }
+                    break;
+                case 4: 
+                    if (Lrnode.isLeaf()) {
+                        if (((LeafNode<A>) Lrnode).isFull()) {
+                            InternalNode<A> temp = 
+                                    new InternalNode<A>(_view, _transitionSize);
+                            for (int i = 0;
+                                    i < ((LeafNode<A>) Lrnode).numItems();
+                                    i += 1) {
+                                temp.add(((LeafNode<A>) Lrnode).child(i));
+                            }
+                            Lrnode = temp;
+
+                        } else {
+                            ((LeafNode<A>) Lrnode).add(point);
+                        }
+                    } else {
+                        ((InternalNode<A>) Lrnode).add(point);
+                    }
+                    break;
+                }
+
+            }
+        }
+
+    }
+    private class LeafNode<APoint> extends TreeNode<APoint> {
+        /** ArrayList holding Points */
+        ArrayList<APoint> items = new ArrayList<APoint>();
+        private LeafNode(PointView<APoint> view, int transitionSize) {
+            super(view, transitionSize);
+        }
+        /** Add Point P to LeafNode */
+        public void add(APoint p) {
+            if (items.size() < _transitionSize) {
+                items.add(p);
+            } else {
+                // Possible exception thrown
+            }
+        }
+
+        //* Returns number of items in Leaf */
+        private int numItems() {
+            return items.size();
+        }
+
+        /** Returns item number K of items 
+         * @return */
+        private APoint child(int k) {
+            return items.get(k);
+        }
+
+        /** Returns true if LeadNode */
+        public boolean isLeaf() {
+            return true;
+        }
+
+        /** Returns true if leaf contains max number of items */
+        private boolean isFull() {
+            return items.size() < _transitionSize;
+        }
+    }
+
+    /** The maximum size for an unsubdivided node. */
+    private int _transitionSize;
+
+    /** The root of the tree. */
+    private InternalNode<Point> _root = null; // FIXME: Replace with something reasonable.
+
+    // CONSTRUCTORS, METHODS, OTHER FIELDS HERE
+}
+

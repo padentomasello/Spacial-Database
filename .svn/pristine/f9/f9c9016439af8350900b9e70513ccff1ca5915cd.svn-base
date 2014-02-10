@@ -1,0 +1,84 @@
+package util;
+
+import java.util.Iterator;
+
+/** A Set2D implemented with a QuadTree.  The type argument, Point,
+ *  indicates the type of points contained in the set.  The rather
+ *  involved type parameter structure here allows you to extend
+ *  QuadPoint, and thus add additional data and methods to the points
+ *  you store.
+ *  @author
+ */
+public class QuadTree<Point> extends Set2D<Point> {
+    // Add only private and package private members to this
+    // class and to QuadPoint, or they may not work with our application.
+
+    /** An empty set of Points that uses VIEW to extract position information.
+     *  The argument TRANSITIONSIZE has no externally
+     *  visible effect, but may affect performance.  It is intended to specify
+     *  the largest set Points that resides unsubdivided in a single node of
+     *  the tree.  While space-efficient, such nodes have slower search times
+     *  as their size increases.
+     *  */
+    public QuadTree(PointView<Point> view, int transitionSize) {
+        super(view);
+        _transitionSize = transitionSize;
+        // FIXME: FILL IN
+    }
+
+    /* PUBLIC METHODS.  See Set2D.java for documentation */
+
+    /** Returns my transitionSize parameter (supplied to my constructor). */
+    public int getTransitionSize() {
+        return _transitionSize;
+    }
+
+    @Override
+    public int size() {
+        return 0;  // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public void add(Point p) {
+        // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public void remove(Point p) {
+        // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public boolean contains(Point p) {
+        return false; // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return null; // FIXME: REPLACE WITH BODY
+    }
+
+    @Override
+    public Iterator<Point> iterator(double xl, double yl,
+                                    double xu, double yu) {
+        return null; // FIXME: REPLACE WITH BODY
+    }
+
+    /* END OF PUBLIC MEMBERS */
+
+    // Do not add any public or protected members (except to override methods
+    // of java.lang.Object), and do not change the signatures (names,
+    // arguments, and return types) of any public member.
+    // ADD ANY FIELDS AND NON-PUBLIC MEMBERS YOU NEED HERE.
+
+    /** The maximum size for an unsubdivided node. */
+    private int _transitionSize;
+
+    /** The root of the tree. */
+    private Object _root;  // FIXME: Replace with something reasonable.
+
+    // CONSTRUCTORS, METHODS, OTHER FIELDS HERE
+
+
+}
+

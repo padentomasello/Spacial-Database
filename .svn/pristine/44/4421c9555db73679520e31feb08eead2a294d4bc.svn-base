@@ -1,0 +1,29 @@
+package tracker;
+
+public class Vehicle {
+    private float _y, _vX, _S, _vY, _x;
+    public Vehicle(float y, float vX, float S) {
+        _y = y;
+        _vX = vX;
+        _S = S;
+        _vY = 0;
+        _x = 0;
+    }
+
+    /** Advanced car TIME seconds */
+    public void advance(float time) {
+        _x = _x + (_vX * time);
+        _y = _y + (_vY * time);
+    }
+    
+    /** Returns the x position of vehicle. */
+    public float x() {
+        return _x;
+    }
+    
+    /** Returns the y position of vehicle. */
+    public float y() {
+        return _y;
+    }
+    
+}

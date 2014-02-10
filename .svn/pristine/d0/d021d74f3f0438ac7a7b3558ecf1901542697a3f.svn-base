@@ -1,0 +1,127 @@
+package util;
+
+import java.util.Iterator;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import static util.UnitTest.*;
+
+/** Tests of SimpleSet2D class.
+ *  @author Daniel Paden Tomasello cs61b-bz*/
+public class QuadTreeTest {
+
+    /** Test size. */
+    @Test
+    public void testSize() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 1);
+        S.add(PTS[0]);
+        S.add(PTS[1]);
+        S.add(PTS[2]);
+        S.add(PTS[3]);
+        S.add(PTS[4]);
+        S.add(PTS[5]);
+        assertEquals("Bad non-empty size", 6, S.size());
+        S.remove(PTS[0]);
+        assertEquals("Bad size after removal", 5, S.size());
+        S.remove(PTS[1]);
+        S.remove(PTS[2]);
+        S.remove(PTS[3]);
+        S.remove(PTS[4]);
+        S.remove(PTS[5]);
+        assertEquals("Bad size after removing all", 0, S.size());
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        assertEquals("equals", true, VIEW.equals(PTS[4], PTS[6]));
+        assertEquals("Bad size after multiple insertions",
+                    8, S.size());
+    }
+
+    @Test
+    public void testContains() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 1);
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        double[] p = pnt(5.0, 0.0);
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[0]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[2]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[1]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[3]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[4]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[5]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[6]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[7]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[8]));
+        assertEquals("Contains working incorrectly", false, S.contains(p));
+    }
+
+    @Test
+    public void testTransitionSize() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 2);
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        assertEquals("Check transition size", true, S.contains(PTS[0]));
+        assertEquals("Check transition size", true, S.contains(PTS[2]));
+        assertEquals("Check transition size", true, S.contains(PTS[1]));
+        assertEquals("Check transition size", true, S.contains(PTS[3]));
+        assertEquals("Check transition size", true, S.contains(PTS[4]));
+        assertEquals("Check transition size", true, S.contains(PTS[5]));
+        assertEquals("Check transition size", true, S.contains(PTS[6]));
+        assertEquals("Check transition size", true, S.contains(PTS[7]));
+        assertEquals("Check transition size", true, S.contains(PTS[8]));
+        double[] p = pnt(5.0, 0.0);
+        assertEquals("Check transition size", false, S.contains(p));
+        assertEquals("Bad non-empty size after Transition", 8, S.size());
+        for (double[] q: PTS) {
+            S.remove(q);
+        }
+        assertEquals("Bad empty size after Transition", 0, S.size());
+        QuadTree<double[]> L = new QuadTree<double[]>(VIEW, 5);
+        for (double[] q : PTS) {
+            L.add(q);
+        }
+        assertEquals("Bad non-empty size after Transition", 9, L.size());
+        for (double[] q: PTS) {
+            L.remove(q);
+        }
+        assertEquals("Bad empty size after Transition", 0, L.size());
+    }
+
+    @Test
+    public void testBBoxIterator() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 2);
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        Iterator<double[]> iter = S.iterator(0, 0, 1, 1);
+        assertEquals("BBox Iterator failure", true, iter.hasNext());
+        assertEquals("BBox Iterator failure", PTS[0], iter.next());
+        assertEquals("BBox Iterator failure", false, iter.hasNext());
+        Iterator<double[]> iter1 = S.iterator(-1, -1, 1, 1);
+        assertEquals("BBox Iterator failure", true, iter1.hasNext());
+        iter1.next();
+        iter1.next();
+        iter1.next();
+        assertEquals("BBox Iterator failure", false, iter1.hasNext());
+    }
+
+    @Test
+    public void testRemove() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 2);
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        S.remove(PTS[1]);
+        S.remove(PTS[2]);
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[0]));
+        assertEquals("Contains working incorrectly", false, S.contains(PTS[2]));
+        assertEquals("Contains working incorrectly", false, S.contains(PTS[1]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[3]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[4]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[5]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[6]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[7]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[8]));
+    }
+}

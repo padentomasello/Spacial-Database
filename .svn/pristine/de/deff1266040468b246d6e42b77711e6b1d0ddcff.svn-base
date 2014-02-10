@@ -1,0 +1,75 @@
+package tracker;
+/**
+ *
+ * @author Daniel Paden Tomasello cs61b-bz
+ *Class that represents the Vehicle.
+ */
+public class Vehicle {
+    /**
+     * _y is initial Y position.
+     * _x is initial X position.
+     * _vX is initial horizontal velocity.
+     * _prevtime is previous time given.
+     * _mag is magnitude of velocity.
+     */
+    private double _y, _vX, _vY, _x, _prevtime, _mag;
+    /** The direction of velocity. */
+    private int _degrees;
+    /** Constructor of vehicle with initial y Y and
+     * horizontal velocity VX.
+     */
+    public Vehicle(double y, double vX) {
+        _y = y;
+        _vX = vX;
+        _mag = _vX;
+        _vY = 0;
+        _x = 0;
+        _prevtime = 0;
+        _degrees = 0;
+    }
+    /** Advanced car to TIME time. */
+    public void advance(double time) {
+        _x = _x + (_vX * (time - _prevtime));
+        _y = _y + (_vY * (time - _prevtime));
+        _prevtime = time;
+    }
+
+    /** Returns the x position of vehicle. */
+    public double x() {
+        return _x;
+    }
+
+    /** Returns the y position of vehicle. */
+    public double y() {
+        return _y;
+    }
+    /** Change direction by DEGREES degrees. */
+    private void changeDir(int degrees) {
+        _degrees = _degrees + degrees;
+        _vX = (double) (_mag * Math.cos(Math.toRadians(_degrees)));
+        _vY = (double) (_mag * Math.sin(Math.toRadians(_degrees)));
+    }
+    /** Changed direction either 45 or -45 degrees
+     * based on CHOOSER.
+     */
+    public void detected(Chooser chooser) {
+        int choice = chooser.choose(_x, _y, _vX, _vY);
+        if (choice == 1) {
+            changeDir(NEGFORTYFIVE);
+        } else {
+            changeDir(FORTYFIVE);
+        }
+    }
+
+    /**Reports final position at TIME. */
+    public void reportFinal(double time) {
+        System.out.print(String.format("Final Position: "
+                + "(%1$.1f, %2$.1f)@%3$.1f", _x, _y, time));
+    }
+
+    /** -45 degrees. */
+    static final int NEGFORTYFIVE = -45;
+
+    /** 45 degrees. */
+    static final int FORTYFIVE = 45;
+}

@@ -1,0 +1,23 @@
+package tracker;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class VehicleTest {
+
+    @Test
+    public void test() {
+        Vehicle car = new Vehicle(20, 20, 1);
+        
+        assertEquals("Vehicle working incorrectly", 0, car.x(), 0.00001);
+        assertEquals("Vehicle working incorrectly", 20, car.y(), 0.00001);
+        car.advance(1);
+        assertEquals("Vehicle working incorrectly", 20, car.x(), 0.00001);
+        assertEquals("Vehicle working incorrectly", 20, car.y(), 0.00001);
+        Vehicle car2 = new Vehicle(20, 20, 1);
+        car2.detected();
+        
+    }
+
+}

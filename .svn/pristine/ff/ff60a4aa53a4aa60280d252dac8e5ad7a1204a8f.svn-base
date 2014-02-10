@@ -1,0 +1,26 @@
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file, or to not use
+// it at all.
+
+/* Author: *YOUR NAME AND LOGIN HERE* */
+
+package tracker;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+import ucb.junit.textui;
+
+/** Central dispatching point for all testing.   */
+public class UnitTest {
+
+    /** Run the JUnit tests in the tracker package. */
+    public static void main(String[] ignored) {
+        textui.runClasses(tracker.UnitTest.class);
+    }
+
+    // This is a dummy test to prevent complaints.  Replace it with
+    // real tests (along with this comment).
+
+    @Test public void dummy() {
+    }
+}

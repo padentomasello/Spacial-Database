@@ -1,0 +1,66 @@
+package util;
+
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file, or to not use
+// it at all.
+
+import java.util.Iterator;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import static util.UnitTest.*;
+
+/** Tests of SimpleSet2D class.
+ *  @author */
+public class QuadTreeTest {
+
+    /** Test size. */
+    @Test
+    public void testSize() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 1);
+        S.add(PTS[0]);
+        S.add(PTS[1]);
+        S.add(PTS[2]);
+        S.add(PTS[3]);
+        S.add(PTS[4]);
+        S.add(PTS[5]);
+        assertEquals("Bad non-empty size", 6, S.size());
+        S.remove(PTS[0]);
+        assertEquals("Bad size after removal", 5, S.size());
+        S.remove(PTS[1]);
+        S.remove(PTS[2]);
+        S.remove(PTS[3]);
+        S.remove(PTS[4]);
+        S.remove(PTS[5]);
+        assertEquals("Bad size after removing all", 0, S.size());
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        assertEquals("equals", true, VIEW.equals(PTS[4], PTS[6]));
+        assertEquals("Bad size after multiple insertions",
+        PTS.length, S.size());
+    }
+    
+    @Test
+    public void testContain() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 1);
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        double[] p = pnt(5.0, 0.0);
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[0]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[2]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[1]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[3]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[4]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[5]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[6]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[7]));
+        assertEquals("Contains working incorrectly", true, S.contains(PTS[8]));
+        assertEquals("Contains working incorrectly", false, S.contains(p));
+    }
+
+    // Other test methods
+
+}

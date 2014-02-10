@@ -1,0 +1,58 @@
+This directory contains a skeleton for CS61B Project 2.
+
+Although some of what's in here might seem mysterious to you, try to
+understand what it's all for.  Don't be afraid to ask us about it.
+
+CONTENTS:
+
+ReadMe                  This file.
+
+Makefile                For you Unix users: this provides some simple
+                        compilation and testing support: make to compile,
+                        make clean to remove reproducible files, make check
+                        to compile and run Junit tests.
+
+test-tracker		A simple blackbox-testing script.
+
+The util package (directory util):
+
+  Set2D.java              The API for your set-of-points class.  Don't
+                          change.
+
+  SimpleSet2D.java        An example of an implementation of Set2D.
+
+  QuadTree.java           The skeleton for your quadtree implementation.
+                          Don't add any public or protected methods 
+                          or constructors.  Otherwise, change at will.
+
+  QuadTreeNode.java       Skeleton used by QuadTree for the actual
+                          tree structure.  Change or discard at will.
+
+  UnitTest.java           Skeleton JUnit tests for the util package.
+                          Change at will.
+
+  Reporter.java           Utility for managing debugging and other
+                          informational output.
+
+
+  Makefile                Refers to Makefile in outer directory.
+
+The tracker package (directory tracker):
+
+  Main.java               Skeleton for the real main program.
+
+  Chooser.java            Provides a pseudo-random oracle for deciding which
+                          way the driver should turn. 
+
+  UnitTest.java           Skeleton for JUnit testing of the tracker package.
+
+  Makefile                Refers to Makefile in outer directory.
+
+The testing directory
+
+  trivial.trk, badtest0.trk
+                          Input files for blackbox testing.  REMINDER: 
+                          These are samples only.  They DON'T
+                          constitute adequate testing.
+
+  trivial.std             Output that is supposed to result from trivial.trk.

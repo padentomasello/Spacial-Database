@@ -1,0 +1,3 @@
+# Bad input parameter value (not a double).
+100 xx 5 50 10
+700 60 60

@@ -1,0 +1,6 @@
+When running large inputs, such as a million post inputs, My program is
+taking a substantial amount of time inbetween lines 69 and 79. I have tried to
+debug and I notice that number at first grows very quickly to about 270000 and then begins to go very slow. I was unable to attach the million post
+input because it was too big. I am unsure where the problem is. number.add(temp)
+should run in O(1) time and I'm not sure why any of the other methods would take
+increasingly more time as the input got larger. Thanks!

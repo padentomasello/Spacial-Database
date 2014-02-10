@@ -1,0 +1,100 @@
+package tracker;
+/** Class for Post objects.
+ * @author Daniel Paden Tomasello cs61b-bz.*/
+public class Post {
+    /** Position of Post and time interval. */
+    private float _x, _y, _tx;
+    /** Post Number. */
+    private final int _postnum;
+
+    /** Report if post detects vehicle. */
+    private String report = "";
+
+    /** Returns report of Post.*/
+    public String getReport() {
+        return report;
+    }
+    /** Returns Post number. */
+    public float getPostNum() {
+        return _postnum;
+    }
+    /**
+     * @return the _tx
+     */
+    public float gettx() {
+        return _tx;
+    }
+    /** Returns x position. */
+    public double getX() {
+        return _x;
+    }
+    /** Returns y position. */
+    public double getY() {
+        return _y;
+    }
+    /** Creates new Post.
+     * @param x X position of post.
+     * @param y Y position of post.
+     * @param tx time interval of pulses.
+     * @param postnum Post Number.
+     */
+    Post(float x, float y, float tx, int postnum) {
+        _x = x;
+        _y = y;
+        _tx = tx;
+        _postnum = postnum;
+        String temp = String.format("    Post #%1$d at"
+                + " (%2$.1f, %3$.1f):", _postnum, _x, _y);
+        report = report.concat(temp);
+    }
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + _postnum;
+        return result;
+    }
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Post other = (Post) obj;
+        if (_postnum != other._postnum) {
+            return false;
+        }
+        return true;
+    }
+    /** Adds detection string to report. X and Y are position of vehicle
+     * TIME is time of detection. */
+    public void detect(float x, float y, float time) {
+        String temp = String.format("        "
+                + "(%1$.1f, %2$.1f)@%3$.1f", x, y, time);
+        report = report.concat("\n" + temp);
+    }
+    /** Prints report. */
+    public void report() {
+        System.out.println(report);
+    }
+    /** Returns true if I am pulsing at TIME. */
+    public boolean isPulsing(float time) {
+        if (((time % _tx) <= 1)) {
+            return true;
+        }
+        return false;
+    }
+}

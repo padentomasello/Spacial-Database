@@ -1,0 +1,20 @@
+package tracker;
+
+import util.PointView;
+
+public class PostView implements PointView<Post>{
+    @Override
+    public double getX(Post obj) {
+        return obj.get_x();
+    }
+
+    @Override
+    public double getY(Post obj) {
+        return obj.get_y();
+    }
+
+    @Override
+    public boolean equals(Post p1, Post p2) {
+        return p1.equals(p2);
+    }
+}
